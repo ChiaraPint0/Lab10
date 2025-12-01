@@ -16,5 +16,20 @@ class Controller:
         * Numero di Tratte
         * Lista di Tratte che superano il costo indicato come soglia
         """
+        self._view.lista_visualizzazione.clean()
+        grafo = self._model.costruisci_grafo(float(self._view.guadagno_medio_minimo.value))
+        tratte = grafo.edges(data=True)
+        self._view.lista_visualizzazione.controls.append(
+            ft.Row(controls=[ft.Text("Il numero di edge è:"), ft.Text(str(self._model.get_num_edges()))]))
+        self._view.lista_visualizzazione.controls.append(
+            ft.Row(controls=[ft.Text("Il numero di nodi è:"), ft.Text(str(self._model.get_num_nodes()))]))
+
+        for partenza, arrivo, guadagno in tratte:
+            guadagno = guadagno["weight"]
+            stampa = f"{partenza.nome}  |  {arrivo.nome}  |  {guadagno}"
+            self._view.lista_visualizzazione.controls.append(ft.Text(stampa))
+            self._view.page.update()
+            self._view.update()
+
         # TODO
 
